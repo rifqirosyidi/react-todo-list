@@ -6,7 +6,6 @@ function Todo(props) {
             style={{ textDecoration: props.todo.complete ? "line-through" : ""}}
             onClick={ props.toggleComplete }>
                 {props.todo.text}
-                {JSON.stringify(props)}
         </div>
     );
 }
