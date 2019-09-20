@@ -6,7 +6,8 @@ class TodoList extends Component {
 
     state = {
         todos: [],
-        todoToShow: 'all'
+        todoToShow: 'all',
+        markAllComplete: false
     }
 
     addTodo = todo => {
@@ -42,6 +43,23 @@ class TodoList extends Component {
         })
     }
 
+    removeAllCompleteTodo = () => {
+        this.setState({
+            todos: this.state.todos.filter(todo => !todo.complete)
+        })
+    }
+
+    markAllTodoAsComplete = () => {
+        this.setState({
+            todos: this.state.todos.map(todo => ({
+                ...todo,
+                complete: !this.state.markAllComplete
+            })), 
+            
+            markAllComplete: !this.state.markAllComplete
+    })
+}
+
     render() {
         let todos = []
 
@@ -62,6 +80,14 @@ class TodoList extends Component {
                     <button onClick={() => this.updateTodoToShow("all")} >Show all</button>
                     <button onClick={() => this.updateTodoToShow("active")} >Active</button>
                     <button onClick={() => this.updateTodoToShow("complete")} >Completed</button>
+                    {this.state.todos.some(todo => todo.complete) ? (
+                        <div>
+                            <button onClick={this.removeAllCompleteTodo} >Remove Completed Todo</button>
+                        </div>
+                    ) : null }
+                    <div>
+                        <button onClick={this.markAllTodoAsComplete}>Mark all as complete </button>
+                    </div>
                 </div>
                 {todos.map(todo => (
                     <Todo 
