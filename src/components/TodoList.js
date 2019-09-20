@@ -36,6 +36,12 @@ class TodoList extends Component {
         })
     }
 
+    handleDelete = (id) => {
+        this.setState({
+            todos: this.state.todos.filter(todo => todo.id !== id)
+        })
+    }
+
     render() {
         let todos = []
 
@@ -51,17 +57,18 @@ class TodoList extends Component {
         return (
             <div>
                 <TodoForm onSubmit={this.addTodo} />
-                <div>
+                <div>todo left : {this.state.todos.filter(todo => !todo.complete).length}</div>
+                <div style={{ marginBottom: "10px" }}>
                     <button onClick={() => this.updateTodoToShow("all")} >Show all</button>
                     <button onClick={() => this.updateTodoToShow("active")} >Active</button>
                     <button onClick={() => this.updateTodoToShow("complete")} >Completed</button>
                 </div>
-                <div>todo task : {this.state.todos.filter(todo => !todo.complete).length}</div>
                 {todos.map(todo => (
                     <Todo 
                         key={todo.id} 
                         todo={todo} 
-                        toggleComplete={ () => this.toggleComplete(todo.id) } />
+                        toggleComplete={ () => this.toggleComplete(todo.id)}
+                        onDelete={() => this.handleDelete(todo.id)} />
                 ))}
             </div>
         );
